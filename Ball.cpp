@@ -2,7 +2,6 @@
 #include "cmath"
 using namespace System::Drawing;
 
-Ball* ball;
 
 void Ball::draw(Graphics^ graphics) {
 	SolidBrush pen(Color::FromArgb(_color));
@@ -16,16 +15,16 @@ void Ball::setPos(float x, float y) {
 	_x = x;
 	_y = y;
 }
-Ball::Ball(int frameWidth, int frameHeight) {
+Ball::Ball(int frameWidth, int frameHeight, int x, int y) {
 	_frameX = frameWidth;
 	_frameY = frameHeight;
 	_rad = 20;
 	_diam = 40;
-	_color = Color::Black.ToArgb();
-	_x = frameWidth / 2;
-	_y = frameHeight / 2;
-	_spdy = 0;
-	_spdx = 0;
+	_color = Color::FromArgb(rand() % 256, rand() % 256, rand() % 256).ToArgb();
+	_x = x;
+	_y = y;
+	_spdy = 5;
+	_spdx = 5;
 }
 void Ball::setColor(int color) {
 	_color = color;
@@ -62,4 +61,9 @@ void Ball::followTo(float x, float y) {
 		_spdx = -(speed * cos(angle));
 		_spdy = -(speed * sin(angle));
 	}
+}
+void Ball::interact(PopObject* popObject) {
+	_spdx = -_spdx;
+	_spdy = -_spdy;
+	//popObject->setSpeed(-popObject->getSpdX(), -popObject->getSpdY());
 }
